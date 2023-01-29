@@ -34,7 +34,7 @@ public class RestAssuredEx {
         System.out.println("Inside perform action :");
         response =
                 given().contentType(ContentType.JSON)
-                        .when().get("/api/v1/employees")
+                        .when().get("/api/v1/employees") // watch out for GET method
                         .then().extract().response();
        // System.out.println("The response : " + response.asString());
        // System.out.println("The response : " + response.prettyPrint());
@@ -63,7 +63,7 @@ public class RestAssuredEx {
 
     @When("user performs post operation")
     public void userPerformsPostOperation() {
-        System.out.println("Inside post action :");
+        System.out.println("Inside POST action :");
 
         JSONObject jsonObject = new JSONObject();
 
@@ -73,7 +73,7 @@ public class RestAssuredEx {
 
         response =
                 given().contentType(ContentType.JSON)
-                        .when().post("/api/v1/create")
+                        .when().post("/api/v1/create") // watch out for POST method
                         .then().extract().response();
 
         System.out.println(response.prettyPrint());
@@ -81,7 +81,7 @@ public class RestAssuredEx {
 
     @Then("user should be able to post employee information")
     public void userShouldBeAbleToPostEmployeeInformation() {
-        System.out.println("Inside validate post action status code :" + response.statusCode());
+        System.out.println("Inside validate POST action status code :" + response.statusCode());
 
     }
 
@@ -93,5 +93,29 @@ public class RestAssuredEx {
                 .body(JsonSchemaValidator.
                         matchesJsonSchema(new File("/Users/praveenbaliga/Documents/cucumberSelenium/src/test/resources/schemas/schema.json")));
 
+    }
+
+    @When("user performs put operation")
+    public void userPerformsPutOperation() {
+        System.out.println("Inside PUT action :");
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("name", "Donald Jeff"); //insert key value pair to jsonObject
+        jsonObject.put("salary", 600000);
+        jsonObject.put("age", 50);
+
+        response =
+                given().contentType(ContentType.JSON)
+                        .when().put("api/v1/update/9158") // watch out for PUT method
+                        .then().extract().response();
+
+        System.out.println(response.prettyPrint());
+
+    }
+
+    @Then("user should be able to update employee information")
+    public void userShouldBeAbleToUpdateEmployeeInformation() {
+        System.out.println("Inside validate PUT action status code :" + response.statusCode());
     }
 }
